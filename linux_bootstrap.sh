@@ -77,14 +77,14 @@ git remote set-url origin "$REPO"
 
 # Step 8. Test GitHub access using restored key
 echo "Testing GitHub SSH access..."
-ssh -T git@github.com 2>&1 | tee /tmp/github_ssh_test.log
-if grep -q "successfully authenticated" /tmp/github_ssh_test.log; then
+ssh_output=$(ssh -T git@github.com 2>&1 || true)
+if echo "$ssh_output" | grep -q "successfully authenticated"; then
   echo "Permanent SSH key working with GitHub."
 
   # Step 9. Clean up bootstrap key
   echo "Cleaning up temporary bootstrap key..."
   rm -f "$BOOTSTRAP_KEY"
-  echo "Chezmoi bootstrap complete."
+  echo "Chezmoi bootstrap complete at $(date)"
 else
   echo "Could not verify SSH access to GitHub. Check ~/.ssh/config or permissions."
   echo "Bootstrap key retained for manual troubleshooting."
@@ -92,5 +92,3 @@ else
   exit 1
 fi
 
-# finish
-echo "Bootstrap script finished at $(date)"
