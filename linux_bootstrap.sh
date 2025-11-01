@@ -44,12 +44,11 @@ if [ ! -f "$AGE_KEY_PATH" ]; then
   echo "Copy age key there and try again."
   exit 1
 fi
-chmod 700 "$(dirname "$AGE_KEY_PATH")"
 chmod 600 "$AGE_KEY_PATH"
 
 # Step 4. Clone chezmoi repo using bootstrap key
 mkdir -p ~/.local/share/chezmoi
-chmod 600 "$AGE_KEY_PATH"
+chmod 700 ~/.local/share/chezmoi
 echo "Cloning dotfiles repo using bootstrap key..."
 export GIT_SSH_COMMAND="ssh -i $BOOTSTRAP_KEY -o IdentitiesOnly=yes"
 chezmoi init "$REPO"
