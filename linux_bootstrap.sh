@@ -46,18 +46,30 @@ if [ ! -f "$AGE_KEY_PATH" ]; then
 fi
 chmod 600 "$AGE_KEY_PATH"
 
-# Step 4. Clone chezmoi repo using bootstrap key
+# Step 4. Pre-create chezmoi config
+echo "Creating chezmoi config for age decryption..."
+mkdir -p ~/.config/chezmoi
+chmod 700 ~/.config/chezmoi
+cat > ~/.config/chezmoi/chezmoi.toml <<'EOF'
+encryption = "age"
+
+[age]
+  identity = "~/.config/age/keys.txt"
+EOF
+chmod 600 ~/.config/chezmoi/chezmoi.toml
+
+# Step 5. Clone chezmoi repo using bootstrap key
 mkdir -p ~/.local/share/chezmoi
 chmod 700 ~/.local/share/chezmoi
 echo "Cloning dotfiles repo using bootstrap key..."
 export GIT_SSH_COMMAND="ssh -i $BOOTSTRAP_KEY -o IdentitiesOnly=yes"
 chezmoi init "$REPO"
 
-# Step 5. Apply chezmoi configuration
+# Step 6. Apply chezmoi configuration
 echo "Applying chezmoi configuration..."
 chezmoi apply -v
 
-# # Step 6. Switch chezmoi remote to permanent SSH key
+# # Step 7. Switch chezmoi remote to permanent SSH key
 # echo "Switching chezmoi repo to permanent SSH key..."
 # cd ~/.local/share/chezmoi
 # unset GIT_SSH_COMMAND
@@ -70,7 +82,7 @@ chezmoi apply -v
 #   echo "Could not verify SSH access to GitHub. Check ~/.ssh/config or permissions."
 # fi
 # 
-# # Step 7. Clean up bootstrap key
+# # Step 8. Clean up bootstrap key
 # echo "Cleaning up temporary bootstrap key..."
 # rm -f "$BOOTSTRAP_KEY"
 # echo "Chezmoi bootstrap complete."
