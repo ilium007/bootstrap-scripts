@@ -37,6 +37,8 @@ mkdir -p ~/.ssh
 echo "Bootstrap key found."
 
 # Step 3. Copy age key
+mkdir -p "$(dirname "$AGE_KEY_PATH")"
+chmod 700 "$(dirname "$AGE_KEY_PATH")"
 if [ ! -f "$AGE_KEY_PATH" ]; then
   echo "Missing Age private key at $AGE_KEY_PATH"
   echo "Copy age key there and try again."
@@ -46,6 +48,8 @@ chmod 700 "$(dirname "$AGE_KEY_PATH")"
 chmod 600 "$AGE_KEY_PATH"
 
 # Step 4. Clone chezmoi repo using bootstrap key
+mkdir -p ~/.local/share/chezmoi
+chmod 600 "$AGE_KEY_PATH"
 echo "Cloning dotfiles repo using bootstrap key..."
 export GIT_SSH_COMMAND="ssh -i $BOOTSTRAP_KEY -o IdentitiesOnly=yes"
 chezmoi init "$REPO"
