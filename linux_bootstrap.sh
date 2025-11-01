@@ -75,20 +75,8 @@ cd ~/.local/share/chezmoi
 unset GIT_SSH_COMMAND
 git remote set-url origin "$REPO"
 
-# Step 8. Test GitHub access using restored key
-echo "Testing GitHub SSH access..."
-ssh_output=$(ssh -T git@github.com 2>&1 || true)
-if echo "$ssh_output" | grep -q "successfully authenticated"; then
-  echo "Permanent SSH key working with GitHub."
-
-  # Step 9. Clean up bootstrap key
-  echo "Cleaning up temporary bootstrap key..."
-  rm -f "$BOOTSTRAP_KEY"
-  echo "Chezmoi bootstrap complete at $(date)"
-else
-  echo "Could not verify SSH access to GitHub. Check ~/.ssh/config or permissions."
-  echo "Bootstrap key retained for manual troubleshooting."
-  export GIT_SSH_COMMAND="ssh -i $BOOTSTRAP_KEY -o IdentitiesOnly=yes"
-  exit 1
-fi
+# Step 8. Clean up bootstrap key
+echo "Cleaning up temporary bootstrap key..."
+rm -f "$BOOTSTRAP_KEY"
+echo "Chezmoi bootstrap complete at $(date)"
 
