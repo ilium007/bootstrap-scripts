@@ -32,24 +32,24 @@ if [ ! -f "$BOOTSTRAP_KEY" ]; then
   echo "Copy temporary key there and try again."
   exit 1
 fi
-chmod 600 "$BOOTSTRAP_KEY"
-mkdir -p ~/.ssh
+#chmod 600 "$BOOTSTRAP_KEY"
+#mkdir -p ~/.ssh
 echo "Bootstrap key found."
 
 # Step 3. Copy age key
-mkdir -p "$(dirname "$AGE_KEY_PATH")"
-chmod 700 "$(dirname "$AGE_KEY_PATH")"
+#mkdir -p "$(dirname "$AGE_KEY_PATH")"
+#chmod 700 "$(dirname "$AGE_KEY_PATH")"
 if [ ! -f "$AGE_KEY_PATH" ]; then
   echo "Missing Age private key at $AGE_KEY_PATH"
   echo "Copy age key there and try again."
   exit 1
 fi
-chmod 600 "$AGE_KEY_PATH"
+#chmod 600 "$AGE_KEY_PATH"
 
 # Step 4. Pre-create chezmoi config
 echo "Creating chezmoi config for age decryption..."
-mkdir -p ~/.config/chezmoi
-chmod 700 ~/.config/chezmoi
+#mkdir -p ~/.config/chezmoi
+#chmod 700 ~/.config/chezmoi
 cat > ~/.config/chezmoi/chezmoi.toml <<'EOF'
 encryption = "age"
 
@@ -79,4 +79,3 @@ git remote set-url origin "$REPO"
 echo "Cleaning up temporary bootstrap key..."
 rm -f "$BOOTSTRAP_KEY"
 echo "Chezmoi bootstrap complete at $(date)"
-
