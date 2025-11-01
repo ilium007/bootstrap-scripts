@@ -69,20 +69,20 @@ chezmoi init "$REPO"
 echo "Applying chezmoi configuration..."
 chezmoi apply -v
 
-# # Step 7. Switch chezmoi remote to permanent SSH key
-# echo "Switching chezmoi repo to permanent SSH key..."
-# cd ~/.local/share/chezmoi
-# unset GIT_SSH_COMMAND
-# git remote set-url origin "$REPO"
-# 
-# # Test GitHub access using restored key
-# if ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
-#   echo "Permanent SSH key working with GitHub."
-# else
-#   echo "Could not verify SSH access to GitHub. Check ~/.ssh/config or permissions."
-# fi
-# 
-# # Step 8. Clean up bootstrap key
-# echo "Cleaning up temporary bootstrap key..."
-# rm -f "$BOOTSTRAP_KEY"
-# echo "Chezmoi bootstrap complete."
+# Step 7. Switch chezmoi remote to permanent SSH key
+echo "Switching chezmoi repo to permanent SSH key..."
+cd ~/.local/share/chezmoi
+unset GIT_SSH_COMMAND
+git remote set-url origin "$REPO"
+
+# Test GitHub access using restored key
+if ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
+  echo "Permanent SSH key working with GitHub."
+else
+  echo "Could not verify SSH access to GitHub. Check ~/.ssh/config or permissions."
+fi
+
+# Step 8. Clean up bootstrap key
+echo "Cleaning up temporary bootstrap key..."
+rm -f "$BOOTSTRAP_KEY"
+echo "Chezmoi bootstrap complete."
