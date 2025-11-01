@@ -91,3 +91,6 @@ else
   export GIT_SSH_COMMAND="ssh -i $BOOTSTRAP_KEY -o IdentitiesOnly=yes"
   exit 1
 fi
+
+# finish
+echo "Bootstrap script finished at $(date)"
