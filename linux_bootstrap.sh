@@ -56,6 +56,10 @@ encryption = "age"
 [age]
   identity = "~/.config/age/keys.txt"
   recipient = "age1uxeeu6l4zwyhjhevwkpf85sa7n964tdqgnadh5897t0slwg2uvmqjkqsvs"
+
+[git]
+    autoCommit = true
+    autoPush = true
 EOF
 
 chmod 600 ~/.config/chezmoi/chezmoi.toml
