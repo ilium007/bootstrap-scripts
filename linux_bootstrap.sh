@@ -11,7 +11,7 @@ set -euo pipefail
 
 REPO="git@github.com:ilium007/dotfiles.git"
 BOOTSTRAP_KEY="$HOME/.ssh/bootstrap"
-AGE_KEY_PATH="$HOME/.config/age/keys.txt"
+AGE_KEY_PATH="$HOME/.config/chezmoi/age/keys.txt"
 
 echo "Starting chezmoi bootstrap..."
 
