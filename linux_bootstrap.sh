@@ -54,7 +54,7 @@ cat > ~/.config/chezmoi/chezmoi.toml <<'EOF'
 encryption = "age"
 
 [age]
-  identity = "~/.config/age/keys.txt"
+  identity = "~/.config/chezmoi/age/keys.txt"
 EOF
 chmod 600 ~/.config/chezmoi/chezmoi.toml
 
