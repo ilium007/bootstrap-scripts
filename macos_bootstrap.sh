@@ -13,7 +13,7 @@ REPO="git@github.com:ilium007/dotfiles.git"
 BOOTSTRAP_KEY="$HOME/.ssh/bootstrap"
 AGE_KEY_PATH="$HOME/.config/age/keys.txt"
 
-echo "Starting chezmoi bootstrap..."
+echo "Starting macOS bootstrap..."
 
 # Step 1. Install dependencies
 echo "Installing homebrew, git and age..."
@@ -87,7 +87,6 @@ git remote set-url origin "$REPO"
 # Step 8. Clean up bootstrap key
 echo "Cleaning up temporary bootstrap key..."
 rm -f "$BOOTSTRAP_KEY"
-echo "Chezmoi bootstrap complete at $(date)"
 
 # Step 9. Install everything else
 echo "Installing shell apps..."
@@ -107,3 +106,5 @@ sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- -y -b /usr/local/bin
 git config --global user.email "brantwinter@gmail.com"
 git config --global user.name "Brant Winter"
 
+## COMPLETE
+echo "Bootstrap complete at $(date)"
