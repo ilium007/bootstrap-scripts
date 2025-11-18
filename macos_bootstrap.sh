@@ -82,21 +82,17 @@ echo "Cloning dotfiles repo using bootstrap key..."
 export GIT_SSH_COMMAND="ssh -i $BOOTSTRAP_KEY -o IdentitiesOnly=yes"
 chezmoi init "$REPO"
 
-# Step 6. Apply chezmoi configuration
-echo "Applying chezmoi configuration..."
-chezmoi apply -v
-
-# Step 7. Switch chezmoi remote to permanent SSH key
+# Step 6. Switch chezmoi remote to permanent SSH key
 echo "Switching chezmoi repo to permanent SSH key..."
 cd ~/.local/share/chezmoi
 unset GIT_SSH_COMMAND
 git remote set-url origin "$REPO"
 
-# Step 8. Clean up bootstrap key
+# Step 7. Clean up bootstrap key
 echo "Cleaning up temporary bootstrap key..."
 rm -f "$BOOTSTRAP_KEY"
 
-# Step 9. Install everything else
+# Step 8. Install everything else
 echo "Installing shell apps..."
 
 brew install eza fastfetch starship
@@ -117,5 +113,10 @@ sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- -y -b /usr/local/bin
 git config --global user.email "brantwinter@gmail.com"
 git config --global user.name "Brant Winter"
 
+# Step 9. Apply chezmoi configuration
+echo "Applying chezmoi configuration..."
+chezmoi apply -v
+
 # Bootstrap complete
 echo "Bootstrap complete at $(date)"
+
