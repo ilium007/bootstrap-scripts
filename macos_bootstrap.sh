@@ -85,3 +85,22 @@ git remote set-url origin "$REPO"
 echo "Cleaning up temporary bootstrap key..."
 rm -f "$BOOTSTRAP_KEY"
 echo "Chezmoi bootstrap complete at $(date)"
+
+# Step 9. Install everything else
+echo "Installing shell apps..."
+
+brew install eza fastfetch
+
+# --- FZF + Oh-My-Zsh + plugins ------------------------------------------------
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes | ~/.fzf/install --all'
+RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+# --- Install Starship prompt --------------------------------------------------
+sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- -y -b /usr/local/bin
+
+# git config
+git config --global user.email "brantwinter@gmail.com"
+git config --global user.name "Brant Winter"
+
