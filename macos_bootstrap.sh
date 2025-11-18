@@ -30,27 +30,26 @@ fi
 # Step 2. Verify bootstrap SSH key
 if [ ! -f "$BOOTSTRAP_KEY" ]; then
   echo "Bootstrap SSH key not found: $BOOTSTRAP_KEY"
-  echo "Copy temporary key there and try again."
-  exit 1
+  echo "Paste the private key below, then press CTRL-D:"
+  mkdir -p "$(dirname "$BOOTSTRAP_KEY")"
+  cat > "$BOOTSTRAP_KEY"
+  chmod 600 "$BOOTSTRAP_KEY"
+  echo "Bootstrap key saved."
 fi
-#chmod 600 "$BOOTSTRAP_KEY"
-#mkdir -p ~/.ssh
 echo "Bootstrap key found."
 
 # Step 3. Copy age key
-#mkdir -p "$(dirname "$AGE_KEY_PATH")"
-#chmod 700 "$(dirname "$AGE_KEY_PATH")"
 if [ ! -f "$AGE_KEY_PATH" ]; then
   echo "Missing Age private key at $AGE_KEY_PATH"
-  echo "Copy age key there and try again."
-  exit 1
+  echo "Paste the Age key below, then press CTRL-D:"
+  mkdir -p "$(dirname "$AGE_KEY_PATH")"
+  cat > "$AGE_KEY_PATH"
+  chmod 600 "$AGE_KEY_PATH"
+  echo "Age key saved."
 fi
-#chmod 600 "$AGE_KEY_PATH"
 
 # Step 4. Pre-create chezmoi config
 echo "Creating chezmoi config for age decryption..."
-#mkdir -p ~/.config/chezmoi
-#chmod 700 ~/.config/chezmoi
 cat > ~/.config/chezmoi/chezmoi.toml <<'EOF'
 encryption = "age"
 
