@@ -98,7 +98,7 @@ echo "Installing shell apps..."
 brew install eza fastfetch starship
 
 # --- Oh-My-Zsh + FZF + plugins ------------------------------------------------
-yes | RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes | ~/.fzf/install --all
 
@@ -107,7 +107,10 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 # --- Install Starship prompt --------------------------------------------------
-sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- -y -b /usr/local/bin
+if [ ! -f /opt/homebrew/bin/starship ]; then
+  echo "Installing Starship..."
+  sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- -y -b /usr/local/bin
+fi
 
 # git config
 git config --global user.email "brantwinter@gmail.com"
