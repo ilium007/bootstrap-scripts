@@ -106,5 +106,5 @@ sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- -y -b /usr/local/bin
 git config --global user.email "brantwinter@gmail.com"
 git config --global user.name "Brant Winter"
 
-## COMPLETE
+# Bootstrap complete
 echo "Bootstrap complete at $(date)"
