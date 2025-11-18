@@ -24,6 +24,14 @@ fi
 brew update
 brew install git age
 
+if xcode-select -p &> /dev/null; then
+  echo "Xcode command line tools are already installed."
+else
+  echo "Installing Xcode command line tools..."
+  xcode-select --install &> /dev/null
+  echo "Xcode command line tools installed successfully."
+fi
+
 # Install chezmoi if missing
 if ! command -v chezmoi >/dev/null 2>&1; then
   echo "Installing chezmoi..."
@@ -93,10 +101,14 @@ echo "Installing shell apps..."
 
 brew install eza fastfetch starship
 
-# --- FZF + Oh-My-Zsh + plugins ------------------------------------------------
+# --- Oh-My-Zsh + FZF + plugins ------------------------------------------------
+yes | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes | ~/.fzf/install --all
-RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 # --- Install Starship prompt --------------------------------------------------
