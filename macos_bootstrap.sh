@@ -94,7 +94,7 @@ rm -f "$BOOTSTRAP_KEY"
 
 # Step 8. Install everything else
 echo "Installing shell apps..."
-brew install eza fastfetch starship
+brew install eza fastfetch starship yazi
 
 # --- Oh-My-Zsh + FZF + plugins ------------------------------------------------
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
