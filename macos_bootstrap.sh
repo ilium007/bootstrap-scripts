@@ -94,7 +94,6 @@ rm -f "$BOOTSTRAP_KEY"
 
 # Step 8. Install everything else
 echo "Installing shell apps..."
-
 brew install eza fastfetch starship
 
 # --- Oh-My-Zsh + FZF + plugins ------------------------------------------------
@@ -105,12 +104,6 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes | ~/.fzf/i
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
-# --- Install Starship prompt --------------------------------------------------
-if [ ! -f /opt/homebrew/bin/starship ]; then
-  echo "Installing Starship..."
-  sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- -y -b /usr/local/bin
-fi
 
 # git config
 git config --global user.email "brantwinter@gmail.com"
