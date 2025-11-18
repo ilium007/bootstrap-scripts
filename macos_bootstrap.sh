@@ -91,7 +91,7 @@ rm -f "$BOOTSTRAP_KEY"
 # Step 9. Install everything else
 echo "Installing shell apps..."
 
-brew install eza fastfetch
+brew install eza fastfetch starship
 
 # --- FZF + Oh-My-Zsh + plugins ------------------------------------------------
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes | ~/.fzf/install --all
