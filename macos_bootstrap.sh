@@ -94,7 +94,7 @@ rm -f "$BOOTSTRAP_KEY"
 
 # Step 8. Install everything else
 echo "Installing shell apps..."
-brew install eza fastfetch starship yazi
+brew install eza fastfetch starship yazi uv
 
 # --- Oh-My-Zsh + FZF + plugins ------------------------------------------------
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
@@ -108,6 +108,16 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 # git config
 git config --global user.email "brantwinter@gmail.com"
 git config --global user.name "Brant Winter"
+
+# mas installs
+# DOESN'T WORK
+#mas install \
+#1451544217 \ # Adobe Lightroom
+#1153157709 \
+#1451685025 \
+
+#uv
+uv python install
 
 # Step 9. Apply chezmoi configuration
 echo "Applying chezmoi configuration..."
