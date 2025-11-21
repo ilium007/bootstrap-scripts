@@ -15,19 +15,21 @@ AGE_KEY_PATH="$HOME/.config/age/keys.txt"
 
 echo "Starting macOS bootstrap..."
 
-# Install dependencies
+# Install initial dependencies
 echo "Installing homebrew, git and age..."
 if [ ! -f /opt/homebrew/bin/brew ]; then
   echo "Homebrew not installed. Installing..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-for pkg in git age; do
-  if ! brew list --formula | grep -q "^$pkg$"; then
-    brew update
-    brew install "$pkg"
-  fi
+missing=()
+for pkg in git age chezmoi; do
+  brew list --formula | grep -q "^$pkg$" || missing+=("$pkg")
 done
+if [ ${#missing[@]} -gt 0 ]; then
+  brew update
+  brew install "${missing[@]}"
+fi
 
 # xcode command line tools
 if xcode-select -p &> /dev/null; then
@@ -38,11 +40,11 @@ else
   echo "Xcode command line tools installed successfully."
 fi
 
-# Install chezmoi if missing
-if ! command -v chezmoi >/dev/null 2>&1; then
-  echo "Installing chezmoi..."
-  brew install chezmoi
-fi
+## Install chezmoi if missing
+#if ! command -v chezmoi >/dev/null 2>&1; then
+#  echo "Installing chezmoi..."
+#  brew install chezmoi
+#fi
 
 # Verify bootstrap SSH key
 if [ ! -f "$BOOTSTRAP_KEY" ]; then
@@ -98,20 +100,6 @@ git remote set-url origin "$REPO"
 echo "Cleaning up temporary bootstrap key..."
 rm -f "$BOOTSTRAP_KEY"
 
-# git config
-git config --global user.email "brantwinter@gmail.com"
-git config --global user.name "Brant Winter"
-
-# mas installs
-# DOESN'T WORK
-#mas install \
-#1451544217 \ # Adobe Lightroom
-#1153157709 \
-#1451685025 \
-
-#uv
-uv python install
-
 # Install Zap ZSH plugin manager
 if [[ ! -d "${XDG_DATA_HOME:-$HOME/.local/share}/zap" ]]; then
   echo "Installing Zap ZSH plugin manager..."
@@ -125,15 +113,23 @@ echo "Applying chezmoi..."
 chezmoi apply -v
 
 # Install applications via Brewfile
-# REPLACE WITH BREWFILE
-if [[ -f ./Brewfile ]]; then
+if [[ -f $HOME/.Brewfile ]]; then
   echo "Installing applications from Brewfile..."
-  brew bundle --file=./Brewfile
+  brew bundle --file=$HOME/.Brewfile
 else
   echo "Warning: Brewfile not found in current directory"
-  # some default brew apps
-  brew install eza fzf fastfetch yazi uv zsh-completions
+  exit 1
 fi
+
+# mas installs
+# DOESN'T WORK ATM, BUGS WITH TAHOE
+#mas install \
+#1451544217 \ # Adobe Lightroom
+#1153157709 \
+#1451685025 \
+
+# uv - install latest python
+uv python install
 
 # Re-source Homebrew env just in case
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -143,4 +139,3 @@ echo "Bootstrap complete..."
 
 # Optionally restart the shell
 exec zsh -l
-
