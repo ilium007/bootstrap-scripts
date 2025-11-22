@@ -13,8 +13,6 @@ REPO="git@github.com:ilium007/dotfiles.git"
 BOOTSTRAP_KEY="$HOME/.ssh/bootstrap"
 AGE_KEY_PATH="$HOME/.config/age/keys.txt"
 
-echo "Starting macOS bootstrap..."
-
 ## xcode command line tools
 if xcode-select -p &> /dev/null; then
   echo "Xcode command line tools are already installed."
@@ -128,9 +126,6 @@ uv python install
 
 ## Re-source Homebrew env just in case
 eval "$(/opt/homebrew/bin/brew shellenv)"
-
-## Bootstrap complete
-echo "Bootstrap complete..."
 
 ## Optionally restart the shell
 exec zsh -l
