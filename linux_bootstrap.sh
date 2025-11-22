@@ -13,25 +13,53 @@ REPO="git@github.com:ilium007/dotfiles.git"
 BOOTSTRAP_KEY="$HOME/.ssh/bootstrap"
 AGE_KEY_PATH="$HOME/.config/age/keys.txt"
 
-echo "Starting chezmoi bootstrap..."
+# Update
+sudo apt update && \
+sudo apt full-upgrade
 
-# Install dependencies
-echo "Installing git, curl, and age..."
+# Install binaries
 sudo apt update -y
-sudo apt install -y git curl age
+sudo apt install -y \
+git \
+curl \
+age \
+zip \
+vim \
+dnsutils \
+gpg \
+ca-certificates \
+rsync \
+lsof \
+sudo \
+tmux \
+zsh \
+gdisk \
+tree \
+inotify-tools
 
-# yazi + dependancies
-#sudo apt install -y snapd ffmpeg 7zip jq poppler-utils fd-find ripgrep fzf zoxide imagemagick
-#sudo snap install snapd
+# fastfetch
+TAG=$(curl -s https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest \
+    | grep -oP '"tag_name":\s*"\K(.*?)(?=")')
 
-#sudo snap install yazi --classic
+curl -L -o fastfetch-linux-amd64.deb \
+    "https://github.com/fastfetch-cli/fastfetch/releases/download/${TAG}/fastfetch-linux-amd64.deb"
+sudo apt install -y ./fastfetch-linux-amd64.deb >/dev/null 2>&1 && \
+rm ./fastfetch-linux-amd64.deb >/dev/null 2>&1
 
-#curl -s https://api.github.com/repos/sxyazi/yazi/releases/latest \
-#| grep -oP '"tag_name":\s*"\K(.*?)(?=")' \
-#| xargs -I{} curl -L -o yazi-amd64.snap \
-#  https://github.com/sxyazi/yazi/releases/download/{}/yazi-amd64.snap
+# eza
+sudo mkdir -p /etc/apt/keyrings && \
+wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg && \
+echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list && \
+sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list && \
+sudo apt update && \
+sudo apt install -y eza
 
-#sudo snap install --classic --dangerous yazi-amd64.snap && rm yazi-amd64.snap
+# fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install --all
+
+# Starship
+#curl -sS https://starship.rs/install.sh | sh -s -- -y
+sudo sh -c 'curl -sS https://starship.rs/install.sh | sh -s -- -y >/dev/null 2>&1'
 
 # zap for zsh
 zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
@@ -98,7 +126,10 @@ cd ~/.local/share/chezmoi
 unset GIT_SSH_COMMAND
 git remote set-url origin "$REPO"
 
+## uv - install latest python
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv python install
+
 # Clean up bootstrap key
 echo "Cleaning up temporary bootstrap key..."
 rm -f "$BOOTSTRAP_KEY"
-echo "Chezmoi bootstrap complete at $(date)"
