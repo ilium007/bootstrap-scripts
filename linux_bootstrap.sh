@@ -21,9 +21,17 @@ sudo apt update -y
 sudo apt install -y git curl age
 
 # yazi + dependancies
-sudo apt install -y snapd ffmpeg 7zip jq poppler-utils fd-find ripgrep fzf zoxide imagemagick
-sudo snap install snapd
-sudo snap install yazi --classic
+#sudo apt install -y snapd ffmpeg 7zip jq poppler-utils fd-find ripgrep fzf zoxide imagemagick
+#sudo snap install snapd
+
+#sudo snap install yazi --classic
+
+#curl -s https://api.github.com/repos/sxyazi/yazi/releases/latest \
+#| grep -oP '"tag_name":\s*"\K(.*?)(?=")' \
+#| xargs -I{} curl -L -o yazi-amd64.snap \
+#  https://github.com/sxyazi/yazi/releases/download/{}/yazi-amd64.snap
+
+#sudo snap install --classic --dangerous yazi-amd64.snap && rm yazi-amd64.snap
 
 # zap for zsh
 zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
