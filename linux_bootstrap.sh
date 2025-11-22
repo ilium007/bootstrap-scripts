@@ -26,7 +26,7 @@ sudo snap install snapd
 sudo snap install yazi --classic
 
 # zap for zsh
-
+zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
 
 # Install chezmoi if missing
 if ! command -v chezmoi >/dev/null 2>&1; then
@@ -34,30 +34,31 @@ if ! command -v chezmoi >/dev/null 2>&1; then
   sudo sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
 fi
 
-# Verify bootstrap SSH key
+## Verify bootstrap SSH key
 if [ ! -f "$BOOTSTRAP_KEY" ]; then
   echo "Bootstrap SSH key not found: $BOOTSTRAP_KEY"
-  echo "Copy temporary key there and try again."
-  exit 1
+  echo "Paste the private key below, then press CTRL-D:"
+  mkdir -p "$(dirname "$BOOTSTRAP_KEY")"
+  cat > "$BOOTSTRAP_KEY"
+  chmod 600 "$BOOTSTRAP_KEY"
+  echo "Bootstrap key saved."
 fi
-#chmod 600 "$BOOTSTRAP_KEY"
-#mkdir -p ~/.ssh
 echo "Bootstrap key found."
 
-# Copy age key
-#mkdir -p "$(dirname "$AGE_KEY_PATH")"
-#chmod 700 "$(dirname "$AGE_KEY_PATH")"
+## Copy age key
 if [ ! -f "$AGE_KEY_PATH" ]; then
-  echo "Missing Age private key at $AGE_KEY_PATH"
-  echo "Copy age key there and try again."
-  exit 1
+  echo "Missing age private key at $AGE_KEY_PATH"
+  echo "Paste the age key below, then press CTRL-D:"
+  mkdir -p "$(dirname "$AGE_KEY_PATH")"
+  cat > "$AGE_KEY_PATH"
+  chmod 600 "$AGE_KEY_PATH"
+  echo "Age key saved."
 fi
-#chmod 600 "$AGE_KEY_PATH"
 
 # Pre-create chezmoi config
 echo "Creating chezmoi config for age decryption..."
-#mkdir -p ~/.config/chezmoi
-#chmod 700 ~/.config/chezmoi
+mkdir -p ~/.config/chezmoi
+chmod 700 ~/.config/chezmoi
 cat > ~/.config/chezmoi/chezmoi.toml <<'EOF'
 encryption = "age"
 
@@ -81,7 +82,7 @@ chezmoi init "$REPO"
 
 # Apply chezmoi configuration
 echo "Applying chezmoi configuration..."
-chezmoi apply -v
+chezmoi apply
 
 # Switch chezmoi remote to permanent SSH key
 echo "Switching chezmoi repo to permanent SSH key..."
