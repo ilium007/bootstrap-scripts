@@ -113,9 +113,10 @@ echo "Applying chezmoi..."
 chezmoi apply -v
 
 ## Install applications via Brewfile
-if [[ -f $HOME/.Brewfile ]]; then
+if [[ -f $HOME/Brewfile ]]; then
   echo "Installing applications from Brewfile..."
-  brew bundle --file=$HOME/.Brewfile
+  #brew bundle --file=$HOME/.Brewfile
+  brew bundle
 else
   echo "Warning: Brewfile not found in current directory"
   exit 1
