@@ -31,6 +31,7 @@ if [ ! -f /opt/homebrew/bin/brew ]; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+# install git, age, chemzoi
 missing=()
 for pkg in git age chezmoi; do
   brew list --formula | grep -q "^$pkg$" || missing+=("$pkg")
