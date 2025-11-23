@@ -113,15 +113,17 @@ run_as_user "curl -LsSf https://astral.sh/uv/install.sh | sh"
 run_as_user "/home/${USER}/.local/bin/uv python install"
 
 ##############################################
-# set hostname from /run/proxmox-metadata
+# symlink chezmoi files out of home dir
 ##############################################
-while [ ! -f /run/proxmox-metadata ]; do
-    echo "Waiting for /run/proxmox-metadata"
-    sleep 1
-done
-source /run/proxmox-metadata
-hostnamectl set-hostname "$VMNAME"
-sed -i "s/debianxx/$VMNAME/g" /etc/hosts
+run_as_user "sudo ln -sf ~/.chezmoi_other/etc/systemd/system/set-proxmox-hostname.service /etc/systemd/system/set-proxmox-hostname.service"
+
+run_as_user "sudo ln -sf ~/.chezmoi_other/usr/local/bin/set-proxmox-hostname.sh /usr/local/bin/set-proxmox-hostname.sh"
+chmod +x /usr/local/bin/set-proxmox-hostname.sh
+
+##############################################
+# enable services
+##############################################
+systemctl enable set-proxmox-hostname.service
 
 ##############################################
 # Cleanup
