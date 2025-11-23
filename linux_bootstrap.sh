@@ -92,10 +92,8 @@ fi
 ##############################################
 run_as_user "mkdir -p ${USER_HOME}/.local/share/chezmoi"
 run_as_user "chmod 700 ${USER_HOME}/.local/share/chezmoi"
-
 run_as_user "ssh-keyscan github.com >> ~/.ssh/known_hosts"
 run_as_user "chmod 600 ~/.ssh/known_hosts"
-
 run_as_user "GIT_SSH_COMMAND=\"ssh -i ~/.ssh/bootstrap -o IdentitiesOnly=yes\" chezmoi init '$REPO'"
 
 ##############################################
@@ -114,7 +112,6 @@ run_as_user "cd ${USER_HOME}/.local/share/chezmoi && git remote set-url origin '
 run_as_user "curl -LsSf https://astral.sh/uv/install.sh | sh"
 run_as_user "/home/${USER}/.local/bin/uv python install"
 
-curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 ##############################################
 # Cleanup
 ##############################################
