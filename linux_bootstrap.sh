@@ -13,30 +13,6 @@ REPO="git@github.com:ilium007/dotfiles.git"
 BOOTSTRAP_KEY="$HOME/.ssh/bootstrap"
 AGE_KEY_PATH="$HOME/.config/age/keys.txt"
 
-# Update
-sudo apt update && \
-sudo apt full-upgrade
-
-# Install binaries
-sudo apt update -y
-sudo apt install -y \
-git \
-curl \
-age \
-zip \
-vim \
-dnsutils \
-gpg \
-ca-certificates \
-rsync \
-lsof \
-sudo \
-tmux \
-zsh \
-gdisk \
-tree \
-inotify-tools
-
 # fastfetch
 TAG=$(curl -s https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest \
     | grep -oP '"tag_name":\s*"\K(.*?)(?=")')
@@ -69,45 +45,6 @@ if ! command -v chezmoi >/dev/null 2>&1; then
   echo "Installing chezmoi..."
   sudo sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
 fi
-
-## Verify bootstrap SSH key
-if [ ! -f "$BOOTSTRAP_KEY" ]; then
-  echo "Bootstrap SSH key not found: $BOOTSTRAP_KEY"
-  echo "Paste the private key below, then press CTRL-D:"
-  mkdir -p "$(dirname "$BOOTSTRAP_KEY")"
-  cat > "$BOOTSTRAP_KEY"
-  chmod 600 "$BOOTSTRAP_KEY"
-  echo "Bootstrap key saved."
-fi
-echo "Bootstrap key found."
-
-## Copy age key
-if [ ! -f "$AGE_KEY_PATH" ]; then
-  echo "Missing age private key at $AGE_KEY_PATH"
-  echo "Paste the age key below, then press CTRL-D:"
-  mkdir -p "$(dirname "$AGE_KEY_PATH")"
-  cat > "$AGE_KEY_PATH"
-  chmod 600 "$AGE_KEY_PATH"
-  echo "Age key saved."
-fi
-
-# Pre-create chezmoi config
-echo "Creating chezmoi config for age decryption..."
-mkdir -p ~/.config/chezmoi
-chmod 700 ~/.config/chezmoi
-cat > ~/.config/chezmoi/chezmoi.toml <<'EOF'
-encryption = "age"
-
-[age]
-  identity = "~/.config/age/keys.txt"
-  recipient = "age1uxeeu6l4zwyhjhevwkpf85sa7n964tdqgnadh5897t0slwg2uvmqjkqsvs"
-
-[git]
-    autoCommit = true
-    autoPush = true
-EOF
-
-chmod 600 ~/.config/chezmoi/chezmoi.toml
 
 # Clone chezmoi repo using bootstrap key
 mkdir -p ~/.local/share/chezmoi
