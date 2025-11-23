@@ -113,6 +113,17 @@ run_as_user "curl -LsSf https://astral.sh/uv/install.sh | sh"
 run_as_user "/home/${USER}/.local/bin/uv python install"
 
 ##############################################
+# set hostname from /run/proxmox-metadata
+##############################################
+while [ ! -f /run/proxmox-metadata ]; do
+    echo "Waiting for /run/proxmox-metadata"
+    sleep 1
+done
+source /run/proxmox-metadata
+hostnamectl set-hostname "$VMNAME"
+sed -i "s/debianxx/$VMNAME/g" /etc/hosts
+
+##############################################
 # Cleanup
 ##############################################
 run_as_user "rm -f ~/.ssh/bootstrap"
