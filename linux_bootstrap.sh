@@ -46,7 +46,7 @@ run_as_user "${USER_HOME}/.fzf/install --all"
 ##############################################
 # Starship (user-local)
 ##############################################
-run_as_user "sh -c 'curl -sS https://starship.rs/install.sh | sh -s -- -y'"
+sh -c 'curl -sS https://starship.rs/install.sh | sh -s -- -y'
 
 ##############################################
 # zap for zsh (user-local)
