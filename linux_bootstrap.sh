@@ -129,3 +129,4 @@ sed -i "s/debianxx/$VMNAME/g" /etc/hosts
 run_as_user "rm -f ~/.ssh/bootstrap"
 
 echo "Bootstrap script complete..."
+reboot
