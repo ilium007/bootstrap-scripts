@@ -14,10 +14,10 @@ echo "Bootstrap script start..."
 
 
 ##############################################
-# apt installs
+# apt-get installs
 ##############################################
-apt update
-apt install -y \
+apt-get update
+apt-get install -y \
 build-essential \
 procps \
 file \
@@ -47,7 +47,7 @@ TAG=$(curl -s https://api.github.com/repos/fastfetch-cli/fastfetch/releases/late
 curl -L -o /tmp/fastfetch.deb \
     "https://github.com/fastfetch-cli/fastfetch/releases/download/${TAG}/fastfetch-linux-amd64.deb"
 
-apt install -y /tmp/fastfetch.deb
+apt-get install -y /tmp/fastfetch.deb
 rm -f /tmp/fastfetch.deb
 
 ##############################################
@@ -61,8 +61,8 @@ echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable
     > /etc/apt/sources.list.d/gierens.list
 
 chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
-apt update
-apt install -y eza
+apt-get update
+apt-get install -y eza
 
 ##############################################
 # fzf (user-local)
