@@ -20,9 +20,23 @@ apt update
 apt install -y \
 build-essential \
 procps \
-curl \
 file \
-git
+vim \
+bind9-dnsutils \
+gpg \
+ca-certificates \
+rsync \
+lsof \
+tmux \
+zsh \
+tree \
+inotify-tools \
+whois \
+unzip \
+htop \
+net-tools \
+jq \
+bzip2
 
 ##############################################
 # fastfetch
@@ -59,7 +73,7 @@ run_as_user "${USER_HOME}/.fzf/install --all"
 ##############################################
 # Starship (user-local)
 ##############################################
-#sh -c 'curl -sS https://starship.rs/install.sh | sh -s -- -y'
+sh -c 'curl -sS https://starship.rs/install.sh | sh -s -- -y'
 
 ##############################################
 # zap for zsh (user-local)
@@ -100,12 +114,7 @@ run_as_user "cd ${USER_HOME}/.local/share/chezmoi && git remote set-url origin '
 run_as_user "curl -LsSf https://astral.sh/uv/install.sh | sh"
 run_as_user "/home/${USER}/.local/bin/uv python install"
 
-##############################################
-# homebrew + apps
-##############################################
-run_as_user '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
-run_as_user 'brew install yazi starship'
-
+curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 ##############################################
 # Cleanup
 ##############################################
