@@ -15,7 +15,10 @@ echo "Bootstrap script start..."
 ##############################################
 # install prerequisite packages
 ##############################################
-apt-get update && apt-get install -y gpg curl
+apt-get update && apt-get install -y \
+gpg \
+curl \
+ca-certificates
 
 ##############################################
 # add unofficial sources
@@ -33,7 +36,6 @@ procps \
 file \
 vim \
 bind9-dnsutils \
-ca-certificates \
 rsync \
 lsof \
 tmux \
