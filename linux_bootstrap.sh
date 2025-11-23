@@ -4,12 +4,13 @@ set -euo pipefail
 USER="$1"
 USER_HOME="/home/${USER}"
 REPO="git@github.com:ilium007/dotfiles.git"
-BOOTSTRAP_KEY="${USER_HOME}/.ssh/bootstrap"
 AGE_KEY_PATH="${USER_HOME}/.config/age/keys.txt"
 
 run_as_user() {
     su - "$USER" -c "$1"
 }
+
+echo "Bootstrap script start..."
 
 ##############################################
 # fastfetch
@@ -66,12 +67,15 @@ fi
 run_as_user "mkdir -p ${USER_HOME}/.local/share/chezmoi"
 run_as_user "chmod 700 ${USER_HOME}/.local/share/chezmoi"
 
-run_as_user "GIT_SSH_COMMAND='ssh -i ${BOOTSTRAP_KEY} -o IdentitiesOnly=yes' chezmoi init '${REPO}'"
+run_as_user "ssh-keyscan github.com >> ~/.ssh/known_hosts"
+run_as_user "chmod 600 ~/.ssh/known_hosts"
+
+run_as_user "GIT_SSH_COMMAND=\"ssh -i ~/.ssh/bootstrap -o IdentitiesOnly=yes\" chezmoi init '$REPO'"
 
 ##############################################
 # Apply chezmoi config
 ##############################################
-run_as_user "chezmoi apply"
+run_as_user "chezmoi apply --force"
 
 ##############################################
 # Switch remote to permanent SSH key
@@ -82,11 +86,11 @@ run_as_user "cd ${USER_HOME}/.local/share/chezmoi && git remote set-url origin '
 # uv + python (user local)
 ##############################################
 run_as_user "curl -LsSf https://astral.sh/uv/install.sh | sh"
-run_as_user "uv python install"
+run_as_user "/home/${USER}/.local/bin/uv python install"
 
 ##############################################
 # Cleanup
 ##############################################
-rm -f "${BOOTSTRAP_KEY}"
+run_as_user "rm -f ~/.ssh/bootstrap"
 
-echo "Bootstrap script complete."
+echo "Bootstrap script complete..."
