@@ -12,6 +12,12 @@ set -euo pipefail
 REPO="git@github.com:ilium007/dotfiles.git"
 BOOTSTRAP_KEY="$HOME/.ssh/bootstrap"
 AGE_KEY_PATH="$HOME/.config/age/keys.txt"
+USER="$1"
+USER_HOME="/Users/${USER}"
+
+run_as_user() {
+    su - "$USER" -c "$1"
+}
 
 ## xcode command line tools
 if xcode-select -p &> /dev/null; then
@@ -119,6 +125,12 @@ if [[ -f $HOME/Brewfile ]]; then
 else
   echo "Warning: Brewfile not found in current directory"
   exit 1
+fi
+
+## symlink chezmoi files out of home dir
+echo "Applying symlinks..."
+if [[ -f $HOME/.chezmoi_other/etc/sudo_local ]]; then
+  run_as_user "sudo ln -sf ~/.chezmoi_other/etc/sudo_local /etc/pam.d/sudo_local"
 fi
 
 ## uv - install latest python
