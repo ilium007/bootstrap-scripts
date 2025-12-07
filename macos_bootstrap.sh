@@ -130,7 +130,11 @@ fi
 ## symlink chezmoi files out of home dir
 echo "Applying symlinks..."
 if [[ -f $HOME/.chezmoi_other/etc/sudo_local ]]; then
-  run_as_user "sudo ln -sf ~/.chezmoi_other/etc/sudo_local /etc/pam.d/sudo_local"
+  run_as_user "sudo ln -sf $HOME/.chezmoi_other/etc/sudo_local /etc/pam.d/sudo_local"
+fi
+
+if [[ -f $HOME/.chezmoi_other/etc/sudoers.d/mas ]]; then
+  run_as_user "sudo ln -sf $HOME/.chezmoi_other/etc/sudoers.d/mas /etc/sudoers.d/mas"
 fi
 
 ## uv - install latest python
