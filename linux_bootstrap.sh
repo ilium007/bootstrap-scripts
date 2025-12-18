@@ -32,6 +32,7 @@ echo "deb https://debian.griffo.io/apt $(lsb_release -sc 2>/dev/null) main" | te
 apt-get update
 apt-get install -y \
 build-essential \
+bzip2 \
 procps \
 file \
 vim \
