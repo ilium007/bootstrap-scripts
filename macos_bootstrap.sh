@@ -67,12 +67,17 @@ if [ ! -f "$AGE_KEY_PATH" ]; then
   echo "Missing age private key at $AGE_KEY_PATH"
   echo "Paste the age key below, then press CTRL-D:"
   mkdir -p "$(dirname "$AGE_KEY_PATH")"
+  chmod 750 "$(dirname "$AGE_KEY_PATH")"
   cat > "$AGE_KEY_PATH"
   chmod 600 "$AGE_KEY_PATH"
   echo "Age key saved."
 fi
 
 ## Create chezmoi config
+if [ ! -d ~/.config/chezmoi ]; then
+  mkdir -p ~/.config/chezmoi
+  chmod 750 ~/.config/chezmoi
+fi
 echo "Creating chezmoi config for age decryption..."
 cat > ~/.config/chezmoi/chezmoi.toml <<'EOF'
 encryption = "age"
